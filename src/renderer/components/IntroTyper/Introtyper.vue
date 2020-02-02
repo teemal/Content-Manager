@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <vue-typer type-delay=100 text='Hold on to your ear balls!'></vue-typer>
+    <vue-typer text='Hold on to your ear balls!'></vue-typer>
   </div>
 </template>
 

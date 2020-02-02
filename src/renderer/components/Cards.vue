@@ -9,6 +9,7 @@
     <div class="media">
       <div class="media-content">
         <p class="title">Album</p>
+        <p>{{artists}}</p>
       </div>
     </div>
 
@@ -21,6 +22,7 @@
 </template>
 <script>
 export default {
+    props: ['artists']
     
 }
 </script>

@@ -1,11 +1,10 @@
 <template>
   <div id="wrapper">
-    <div class="columns">
+    <div class="columns" v-for="(artist, key) in getArtists" v-bind:key="key">
       <div class="column is-4 is-offset-4">
-        <Cards class="cards" />
+        <Cards class="cards" :artists="getArtists"/>
       </div>
     </div>
-    <button @click="test()">shit</button>
   </div>
 </template>
 
@@ -15,12 +14,9 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-        artists: {}
     };
   },
   methods: {
-      test(){
-      }
   },
   components: {
     Cards

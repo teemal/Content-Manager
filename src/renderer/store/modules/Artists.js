@@ -94,7 +94,7 @@ const actions = {
 
 const getters = {
   getArtists: state => {
-    return state.artists
+    return Object.keys(state.artists)
   }
 }
 

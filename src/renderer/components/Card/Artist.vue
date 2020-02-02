@@ -3,6 +3,7 @@
 </template>
 <script>
 export default {
+    props: ['artists']
     
 }
 </script>

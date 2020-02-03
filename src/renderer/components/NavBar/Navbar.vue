@@ -19,7 +19,7 @@
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">Home</a>
+        <a class="navbar-item">Credentials</a>
         <a class="navbar-item" @click="$router.push('/catalog')">Catalog</a>
       </div>
       <div class="navbar-end">

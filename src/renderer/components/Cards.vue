@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <!-- <div class="card">
   <div class="card-image">
     <figure class="image is-6by6">
       <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/Grimes_-_Visions_album_cover.png" alt="Placeholder image">
@@ -9,7 +9,6 @@
     <div class="media">
       <div class="media-content">
         <p class="title">Album</p>
-        <p>{{artists}}</p>
       </div>
     </div>
 
@@ -18,6 +17,9 @@
       <br>
     </div>
   </div>
+</div> -->
+<div class="wrapper">
+    
 </div>
 </template>
 <script>

@@ -10,23 +10,25 @@
         <img id="send-icon" src="@/assets/send.png" @click="uploadDir()" width="60"/>
       </div>
     </div>
-    <!-- <p>content</p> -->
-    <!-- <div class="columns" v-for="(artist, key) in getArtists" v-bind:key="key">
+    <p>content</p>
+    <div class="columns" v-for="(value, key) in this.$store.getters.getArtists" v-bind:key="key">
       <div class="column is-4 is-offset-4">
-        <Cards class="cards" :artists="getArtists" />
+        <Artists />
+        {{value}}
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-import Cards from "./Cards";
+import Artists from "./Card/Artist";
 import { mapGetters } from "vuex";
 export default {
   data() {
     return {
         fileLocation: '',
-        fileName: ''
+        fileName: '',
+        artists: []
     };
   },
   methods: {
@@ -40,10 +42,13 @@ export default {
     }
   },
   components: {
-    Cards
+    Artists
+  },
+  mounted() {
+    
   },
   computed: {
-    ...mapGetters(["getArtists"])
+    ...mapGetters(["getArtists"]),
   },
   mounted() {
       this.$electron.ipcRenderer.on('success', (event, data) => {

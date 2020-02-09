@@ -2,7 +2,6 @@ import {
   app,
   BrowserWindow,
   ipcMain,
-  ipcRenderer
 } from 'electron'
 var AWS = require("aws-sdk");
 const fs = require('fs');
@@ -11,53 +10,31 @@ var path = require("path");
 // =====================ASSUME ROLE====================================================
 AWS.config.region = 'us-east-1';
 
-// var sts = new AWS.STS();
-// sts.assumeRole({
-//   RoleArn: 'arn:aws:iam::921245065062:role/supreme-S3',
-//   RoleSessionName: 'supremeSession'
-// }, function(err, data) {
-//   if (err) { // an error occurred
-//     console.log('Cannot assume role');
-//     console.log(err, err.stack);
-//   } else { // successful response
-//     AWS.config.update({
-//       accessKeyId: data.Credentials.AccessKeyId,
-//       secretAccessKey: data.Credentials.SecretAccessKey,
-//       sessionToken: data.Credentials.SessionToken
-//     });
-//   }
-// });
-
 // ==================S3============================================================
 const BUCKET_NAME = "thicc-boi-thiccbucket-1lqm0m2iu7gji"
-// const s3 = new AWS.S3({
-//   accessKeyId: AWS.config.credentials.accessKeyId,
-//   secretAccessKey: AWS.config.credentials.secretAccessKey
-// });
 
 // ================UPLOAD DIR======================================================
 
 const uploadDir = function (s3Path, artistName, bucketName) {
   //assume role every upload
   var sts = new AWS.STS();
-  // let s3 = new AWS.S3();
   let s3 = new AWS.S3(
-  
-  sts.assumeRole({
-    RoleArn: 'arn:aws:iam::921245065062:role/supreme-S3',
-    RoleSessionName: 'supremeSession'
-  }, function (err, data) {
-    if (err) { // an error occurred
-      console.log('Cannot assume role');
-      console.log(err, err.stack);
-    } else { // successful response
-      AWS.config.update({
-        accessKeyId: data.Credentials.AccessKeyId,
-        secretAccessKey: data.Credentials.SecretAccessKey,
-        sessionToken: data.Credentials.SessionToken
-      });
-    }
-  }););
+    sts.assumeRole({
+      RoleArn: 'arn:aws:iam::921245065062:role/supreme-S3',
+      RoleSessionName: 'supremeSession'
+    }, function (err, data) {
+      if (err) { // an error occurred
+        console.log('Cannot assume role');
+        console.log(err, err.stack);
+      } else { // successful response
+        AWS.config.update({
+          accessKeyId: data.Credentials.AccessKeyId,
+          secretAccessKey: data.Credentials.SecretAccessKey,
+          sessionToken: data.Credentials.SessionToken
+        });
+      }
+    })
+  );
 
   function walkSync(currentDirPath, callback) {
     fs.readdirSync(currentDirPath).forEach(function (name) {
@@ -89,30 +66,6 @@ const uploadDir = function (s3Path, artistName, bucketName) {
   });
 };
 
-// ======================READ FROM S3====================================================
-var getParams = {
-  Bucket: BUCKET_NAME, //bucket name
-}
-
-// s3.getObject(getParams, function (err, data) {
-
-//   if (err) {
-//       console.log(err);
-//   } else {
-//       console.log(data.Body.toString()); //this will log data to console
-//   }
-// })
-
-// s3.listObjectsV2(getParams, function (err, data) {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         console.log(data.Body.toString()); //this will log data to console
-//     }
-// })
-
-
-
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -131,9 +84,9 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 1000,
     useContentSize: true,
-    width: 1000
+    width: 1600
   })
 
   mainWindow.loadURL(winURL)
@@ -155,15 +108,61 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
-  s3.listObjectsV2(getParams, function (err, data) {
-    if (err) {
-      console.log(err);
-      console.log('fuck')
-    } else {
-      console.log(data.Body.toString()); //this will log data to console
-      console.log('test')
+  // if (process.env.NODE_ENV === "development") {
+  //   mainWindow.webContents.on("did-frame-finish-load", () => {
+  //     mainWindow.webContents.once("devtools-opened", () => {
+  //       mainWindow.focus();
+  //     });
+  //     mainWindow.webContents.openDevTools();
+  //   });
+  // }
+})
+
+var sts = new AWS.STS();
+let s3 = new AWS.S3(
+  sts.assumeRole({
+    RoleArn: 'arn:aws:iam::921245065062:role/supreme-S3',
+    RoleSessionName: 'supremeSession'
+  }, function (err, data) {
+    if (err) { // an error occurred
+      console.log('Cannot assume role');
+      console.log(err, err.stack);
+    } else { // successful response
+      AWS.config.update({
+        accessKeyId: data.Credentials.AccessKeyId,
+        secretAccessKey: data.Credentials.SecretAccessKey,
+        sessionToken: data.Credentials.SessionToken
+      });
     }
   })
+);
+
+var getParams = {
+  Bucket: BUCKET_NAME, //bucket name
+}
+var artists = [];
+// get artists/albums/songs from s3 to send to render process
+s3.listObjectsV2(getParams, function (err, data) {
+  if (err) {
+    console.log(err);
+  } else {
+    data.Contents.forEach((i) => {
+      var res = i.Key.split("/");
+      artists.push(res);
+    })
+    //open dev tools
+    if (process.env.NODE_ENV === "development") {
+      mainWindow.webContents.on("did-frame-finish-load", () => {
+        mainWindow.webContents.once("devtools-opened", () => {
+          mainWindow.focus();
+        });
+        mainWindow.webContents.openDevTools();
+      });
+    }
+    //send data to renderer process
+    mainWindow.webContents.send('sendArtists', artists);
+    // console.log(artists)
+  }
 })
 
 

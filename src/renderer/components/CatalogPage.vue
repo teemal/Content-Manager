@@ -10,18 +10,15 @@
         <img id="send-icon" src="@/assets/send.png" @click="uploadDir()" width="60"/>
       </div>
     </div>
-    <p>content</p>
-    <div class="columns" v-for="(value, key) in this.$store.getters.getArtists" v-bind:key="key">
-      <div class="column is-4 is-offset-4">
-        <Artists />
-        {{value}}
+    <div class="columns">
+      <div class="column is-6 is-offset-6">
+        <p>content</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Artists from "./Card/Artist";
 import { mapGetters } from "vuex";
 export default {
   data() {

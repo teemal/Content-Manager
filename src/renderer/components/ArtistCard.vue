@@ -19,8 +19,8 @@ export default {
   },
   data(){
       return{
-          elm: elm,
-          idx: idx
+          elm: '',
+          idx: ''
       }
   }
 };

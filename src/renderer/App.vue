@@ -17,6 +17,10 @@ import NavBar from './components/NavBar/Navbar'
 
 <style>
   /* CSS */
+  .app{
+    background-color: #00D1B2;
+    height: 96vh;
+  }
   .dark{
     background-color: #00D1B2;
     color: white;

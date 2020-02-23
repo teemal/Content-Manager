@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <div class="columns is-desktop is-vcentered">
-      <div class="column is-3 is-offset-6 text-is-centered">
+      <div class="column is-4 is-offset-4 text-is-centered">
         <IntroTyper class="typer"/>
       </div>
     </div>

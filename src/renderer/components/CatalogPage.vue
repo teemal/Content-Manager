@@ -13,9 +13,16 @@
     <div class="columns">
       <div class="column is-6 is-offset-3">
         <p>content</p>
-        <div v-for="(elm, idx) in this.data" v-bind:key="idx">
+        <button @click="getGenres">All Genres</button><br>
+        <input type="text" name="" id="" v-model="genre">
+        <button @click="getArtistsByGenre">Artists by Genre</button><br>
+        <input type="text" name="" id="" v-model="artist">
+        <button @click="getAlbumsByArtist">Albums by Artist</button><br>
+        <input type="text" name="" id="" v-model="album">
+        <button @click="getSongByAlbum">Songs by Album</button><br>
+        <!-- <div v-for="(elm, idx) in this.data" v-bind:key="idx">
           <ArtistCard :name="idx" :albs="elm" />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -27,7 +34,11 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      data: {}
+      data: {},
+      bois: [],
+      genre: '',
+      artist: '',
+      album: ''
     }
   },
   methods: {
@@ -41,17 +52,64 @@ export default {
         this.fileLocation,
         this.fileName
       ]);
+    },
+    getGenres(){
+      axios.get('http://localhost:3000/genres')
+      .then((err,res)=>{
+        if(err){
+          console.log(err)
+        }
+        else{
+          res.forEach(element => {
+            console.log(res.data)
+          });
+        }
+      })
+    },
+    getArtistsByGenre(){
+      axios.get('http://localhost:3000/artists/for/genre?genre=' + this.genre)
+      .then((err,res)=>{
+        if(err){
+          console.log(err)
+        }
+        else{
+          res.forEach(element => {
+            console.log(res.data)
+          });
+        }
+      })
+    },
+    getAlbumsByArtist(){
+      axios.get('http://localhost:3000/albums/for/artist?artist=' + this.artist)
+      .then((err,res)=>{
+        if(err){
+          console.log(err)
+        }
+        else{
+          res.forEach(element => {
+            console.log(res.data)
+          });
+        }
+      })
+    },
+    getSongByAlbum(){
+      axios.get('http://localhost:3000/songs/for/album?album=' + this.album)
+      .then((err,res)=>{
+        if(err){
+          console.log(err)
+        }
+        else{
+          res.forEach(element => {
+            console.log(res.data)
+          });
+        }
+      })
     }
   },
   components: {
     ArtistCard
   },
   mounted () {
-    axios
-      .get('http://ec2-54-165-246-254.compute-1.amazonaws.com:3000/entities')
-      .then((response) => {
-        this.data = response.data
-      })
   }
 };
 </script>

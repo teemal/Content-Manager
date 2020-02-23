@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <div class="columns">
+    <!-- <div class="columns">
       <div class="column is-6 is-offset-3">
         <input type="file" @change="getFiles" webkitdirectory directory multiple />
       </div>
@@ -9,7 +9,7 @@
       <div class="column is-6 is-offset-3">
         <img id="send-icon" src="@/assets/send.png" @click="uploadDir()" width="60" />
       </div>
-    </div>
+    </div> -->
     <div class="columns">
       <div class="column is-6 is-offset-3">
         <p>content</p>
@@ -26,9 +26,8 @@
         <input type="text" name="" id="" placeholder="artist" v-model="artist"><br>
         <input type="text" name="" id="" placeholder="album" v-model="album"><br>
         <input type="text" name="" id="" placeholder="song" v-model="song"><br>
-        <!-- <div v-for="(elm, idx) in this.data" v-bind:key="idx">
-          <ArtistCard :name="idx" :albs="elm" />
-        </div> -->
+        <input type="file" @change="getFiles"/><br>
+        <button @click="uploadDir()">Add</button>
       </div>
     </div>
   </div>
@@ -44,18 +43,17 @@ export default {
       bois: [],
       genre: '',
       artist: '',
-      album: ''
+      album: '',
+      song: ''
     }
   },
   methods: {
     getFiles(event) {
       console.log(event.target.files);
       this.fileName = event.target.files[0].name;
-      this.fileLocation = event.target.files[0].path;
     },
     uploadDir() {
       this.$electron.ipcRenderer.send("uploadDir", [
-        this.fileLocation,
         this.fileName
       ]);
     },
@@ -110,6 +108,9 @@ export default {
           });
         }
       })
+    },
+    addToStorage(){
+
     }
   },
   components: {

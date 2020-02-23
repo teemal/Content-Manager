@@ -20,6 +20,12 @@
         <button @click="getAlbumsByArtist">Albums by Artist</button><br>
         <input type="text" name="" id="" v-model="album">
         <button @click="getSongByAlbum">Songs by Album</button><br>
+        <br>
+        <p>Update DDB</p><br>
+        <input type="text" name="" id="" placeholder="genre" v-model="genre"><br>
+        <input type="text" name="" id="" placeholder="artist" v-model="artist"><br>
+        <input type="text" name="" id="" placeholder="album" v-model="album"><br>
+        <input type="text" name="" id="" placeholder="song" v-model="song"><br>
         <!-- <div v-for="(elm, idx) in this.data" v-bind:key="idx">
           <ArtistCard :name="idx" :albs="elm" />
         </div> -->

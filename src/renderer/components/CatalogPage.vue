@@ -58,7 +58,7 @@ export default {
       ]);
     },
     getGenres(){
-      axios.get('http://localhost:3000/genres')
+      axios.get('http://ec2-54-211-117-32.compute-1.amazonaws.com:3000/genres')
       .then((err,res)=>{
         if(err){
           console.log(err)
@@ -71,7 +71,7 @@ export default {
       })
     },
     getArtistsByGenre(){
-      axios.get('http://localhost:3000/artists/for/genre?genre=' + this.genre)
+      axios.get('http://ec2-54-211-117-32.compute-1.amazonaws.com:3000/artists/for/genre?genre=' + this.genre)
       .then((err,res)=>{
         if(err){
           console.log(err)
@@ -84,7 +84,7 @@ export default {
       })
     },
     getAlbumsByArtist(){
-      axios.get('http://localhost:3000/albums/for/artist?artist=' + this.artist)
+      axios.get('http://ec2-54-211-117-32.compute-1.amazonaws.com:3000/albums/for/artist?artist=' + this.artist)
       .then((err,res)=>{
         if(err){
           console.log(err)
@@ -97,7 +97,7 @@ export default {
       })
     },
     getSongByAlbum(){
-      axios.get('http://localhost:3000/songs/for/album?album=' + this.album)
+      axios.get('http://ec2-54-211-117-32.compute-1.amazonaws.com:3000/songs/for/album?album=' + this.album)
       .then((err,res)=>{
         if(err){
           console.log(err)

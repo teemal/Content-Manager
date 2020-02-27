@@ -30,6 +30,13 @@
         <button @click="uploadDir()">Add</button>
       </div>
     </div>
+    <div class="columns">
+      <div class="column is-6 is-offset-3">
+        <div v-for="genre in this.genres" v-bind:key="genre">
+          <p>{{genre}}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,7 +51,8 @@ export default {
       genre: '',
       artist: '',
       album: '',
-      song: ''
+      song: '',
+      genres: []
     }
   },
   methods: {
@@ -58,15 +66,15 @@ export default {
       ]);
     },
     getGenres(){
-      axios.get('http://ec2-54-211-117-32.compute-1.amazonaws.com:3000/genres')
-      .then((err,res)=>{
+      axios.get('http://localhost:3000/genres')
+      .then((res,err)=>{
         if(err){
           console.log(err)
+          console.log("oh no :(")
         }
         else{
-          res.forEach(element => {
-            console.log(res.data)
-          });
+          this.genres = res.data;
+          console.log(this.genres)
         }
       })
     },
@@ -78,7 +86,7 @@ export default {
         }
         else{
           res.forEach(element => {
-            console.log(res.data)
+            // console.log(res.data)
           });
         }
       })
@@ -91,8 +99,10 @@ export default {
         }
         else{
           res.forEach(element => {
-            console.log(res.data)
+            // console.log(res.data)
+            genres.push(res.data[element])
           });
+          // console.log(genres)
         }
       })
     },

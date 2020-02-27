@@ -66,7 +66,7 @@ export default {
       ]);
     },
     getGenres(){
-      axios.get('http://localhost:3000/genres')
+      axios.get('http://ec2-34-203-205-250.compute-1.amazonaws.com:3000/genres')
       .then((res,err)=>{
         if(err){
           console.log(err)
